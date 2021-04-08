@@ -8,6 +8,7 @@
  */
 int main(void)
 {
+
     //Variablendeklaration
     char c_spielfeld[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     int i_einspieler1 = 0;
@@ -17,6 +18,18 @@ int main(void)
     int i_spieler2eingabecheck = 1;
     int i_returncode = 0;
     int i_falscheingabe = 0;
+    char c_spielernamespieler1[16];
+    char c_spielernamespieler2[161];
+    //Eingabe der Spielernamen
+
+    printf("Spieler1 wie ist dein Name? !!!Der Name darf maximal 15Buchstaben lang sein, ansonsten wird er auf 15 Zeichen gekürzt!!!");
+    scanf("%s", &c_spielernamespieler1);
+    c_spielernamespieler1[15] = '\0';
+
+    printf("Spieler2 wie ist dein Name !!!Der Name darf maximal 15Buchstaben lang sein, ansonsten wird er auf 15 Zeichen gekürzt!!!");
+    scanf("%s", &c_spielernamespieler2);
+    c_spielernamespieler2[15] = '\0';
+
     //Schleife für Spieldurchlauf
     for (int counter = 0; counter < 9; counter++)
     {
@@ -26,13 +39,22 @@ int main(void)
 
         //Spielfeldausgabe
         printf("%c|%c|%c\n-----\n%c|%c|%c\n-----\n%c|%c|%c\n", c_spielfeld[0], c_spielfeld[1], c_spielfeld[2], c_spielfeld[3], c_spielfeld[4], c_spielfeld[5], c_spielfeld[6], c_spielfeld[7], c_spielfeld[8]);
+        //Zurücksetzung des Wertes der Variable einspieler1
+        i_einspieler1 = 0;
+        i_einspieler2 = 0;
+
         //if schleife für Spiele1 durchgang
         if (counter == 0 || counter == 2 || counter == 4 || counter == 6 || counter == 8)
         {
-            printf("Spieler1 in welchem Feld soll dein X gesetzt werden");
+            printf("%s in welchem der 9 Felder willst du dein X setzen ? :", c_spielernamespieler1);
             do
             {
                 i_falscheingabe = scanf("%d", &i_einspieler1);
+                if (i_falscheingabe == 0)
+                {
+                    printf("Das ist keine Zahl du Scherzkeks!!! Versuche es erneut");
+                }
+
                 if (i_einspieler1 >= 1 && i_einspieler1 <= 9)
                 {
                     i_falscheingabe = 1;
@@ -52,10 +74,24 @@ int main(void)
             {
                 if (c_spielfeld[i_einspieler1 - 1] == 'X' || c_spielfeld[i_einspieler1 - 1] == 'O')
                 {
-                    printf("Spieler1 setze dein X bitte in einem anderen Feld ");
+                    if (c_spielfeld[i_einspieler1 - 1] == 'X')
+                    {
+                        printf("Du hast hier bereits ein X ! Bitte setze dein X in ein anderes Feld : ");
+                    }
+                    else
+                    {
+                        printf("Du kannst das Zeichen eines Gegners nicht einfach mit deinem ändern! versuche es erneut!:");
+                    }
+
                     do
                     {
+                        i_einspieler1 = 0;
                         i_falscheingabe = scanf("%d", &i_einspieler1);
+                        if (i_falscheingabe == 0)
+                        {
+                            printf("das ist kein Zeichen du Scherzkeks !!!  Versuche es erneut  :");
+                        }
+
                         if (i_einspieler1 >= 1 && i_einspieler1 <= 9)
                         {
                             i_falscheingabe = 1;
@@ -83,10 +119,16 @@ int main(void)
             //Spielfeldausgabe
             //printf("%c|%c|%c\n-----\n%c|%c|%c\n-----\n%c|%c|%c\n", c_spielfeld[0],c_spielfeld[1], c_spielfeld[2], c_spielfeld[3],c_spielfeld[4], c_spielfeld[5], c_spielfeld[6],c_spielfeld[7], c_spielfeld[8]);
 
-            printf("Spieler2 in welchem Feld soll dein o gesetzt werden");
+            printf("%s Wo soll dein O gesetzt werden?:", c_spielernamespieler2);
             do
             {
+                i_einspieler2 = 0;
                 i_falscheingabe = scanf("%d", &i_einspieler2);
+                if (i_falscheingabe == 0)
+                {
+                    printf("Das ist keine Zahl du Scherzkeks !!! Versuche es erneut :");
+                }
+
                 if (i_einspieler2 >= 1 && i_einspieler2 <= 9)
                 {
                     i_falscheingabe = 1;
@@ -106,11 +148,25 @@ int main(void)
             {
                 if (c_spielfeld[i_einspieler2 - 1] == 'O' || c_spielfeld[i_einspieler2 - 1] == 'X')
                 {
-                    printf("Spieler2 setze dein O bitte in einem anderen Feld ");
+
+                    if (c_spielfeld[i_einspieler2 - 1] == 'O')
+                    {
+                        printf("Du hast hier bereits ein O ! Bitte setze dein O in ein anderes Feld : ");
+                    }
+                    else
+                    {
+                        printf("Du kannst das Zeichen eines Gegners nicht einfach mit deinem ändern! versuche es erneut!:");
+                    }
 
                     do
                     {
+                        i_einspieler2 = 0;
                         i_falscheingabe = scanf("%d", &i_einspieler2);
+                        if (i_falscheingabe == 0)
+                        {
+                            printf("Das ist keine Zahl du Scherzkeks !!! Versuche es erneut :");
+                        }
+
                         if (i_einspieler2 >= 1 && i_einspieler2 <= 9)
                         {
                             i_falscheingabe = 1;
@@ -180,13 +236,13 @@ int main(void)
     switch (i_gewinner)
     {
     case 0:
-        printf("Unentschieden");
+        printf("Es gibt keinen Gewinner! Unentschieden");
         break;
     case 1:
-        printf("Spieler1 hat das Match gewonnen!!!");
+        printf("%s hat Gewonnen", c_spielernamespieler1);
         break;
     case 2:
-        printf("Spieler 2 hat das Match gewonnen!!!");
+        printf("%s hat Gewonnen", c_spielernamespieler2);
         break;
     }
 }
